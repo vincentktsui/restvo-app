@@ -40,6 +40,12 @@ app-completeprofile {
     grid-template-columns: 40px 1fr 25px;
     grid-gap: 20px;
     align-items: center;
+    cursor: pointer;
+    transition: all .2s;
+
+    &:hover {
+      background-color: #eee;
+    }
   }
 
   .icon {

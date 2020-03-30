@@ -13,4 +13,7 @@ export class CompleteprofilePage implements OnInit {
   ngOnInit() {
   }
 
+  goToProfile() {
+    console.log("yeet");
+  }
 }
