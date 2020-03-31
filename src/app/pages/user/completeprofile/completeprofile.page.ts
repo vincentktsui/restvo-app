@@ -26,16 +26,29 @@ export class CompleteprofilePage implements OnInit {
       this.authService.openOnboarding({ modalPage: true });
   }
 
-  async dismissImportContactList() {
-      this.userData.delayImportContactListReminder = 100;
-      await this.storage.set('delayImportContactListReminder', 100);
-  }
-
   async pressImportContactList(event) {
       event.stopPropagation();
       const result: any = await this.userData.toggleImportContactList(true);
       if (result) {
           this.dismissImportContactList();
       }
+  }
+
+  async dismissImportContactList() {
+      this.userData.delayImportContactListReminder = 100;
+      await this.storage.set('delayImportContactListReminder', 100);
+  }
+
+  async requestPushNotificationPermission(event) {
+      event.stopPropagation();
+      const result = await this.userData.checkPushNotification(); // if success, will send an event to refresh the userData.user
+      if (result) {
+          this.dismissEnablePushNotification();
+      }
+  }
+
+  async dismissEnablePushNotification() {
+      this.userData.delayPushNotificationReminder = 100;
+      await this.storage.set('delayPushNotificationReminder', 100);
   }
 }

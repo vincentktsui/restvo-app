@@ -37,7 +37,7 @@
     <ion-card class="title-reminder">
       <small>Optional:</small>
     </ion-card>
-    <ion-card class="action-card">
+    <ion-card class="action-card" (click)="requestPushNotificationPermission($event)" lines="none">
       <img class="icon" src="assets/icon/notification.svg" alt="">
       <div class="action-card-info">
         <ion-card-title mode="md">Enable Push Notifications</ion-card-title>
