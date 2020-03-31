@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth } from "../../../services/auth.service";
-import {UserData} from '../../../services/user.service';
+import { UserData } from '../../../services/user.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-completeprofile',
