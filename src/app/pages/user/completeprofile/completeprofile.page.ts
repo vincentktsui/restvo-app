@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-completeprofile',
@@ -8,12 +9,13 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class CompleteprofilePage implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
   }
 
   goToProfile() {
     console.log("yeet");
+    this.router.navigate(['/app/user/profile']);
   }
 }
