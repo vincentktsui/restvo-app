@@ -537,8 +537,42 @@ app-dashboard {
     }
   }
 
+  .desktop-view {
+    padding: 0 100px;
+
+    & .top-profile-banner {
+      margin: 0 0 10px 0 !important;
+      border-radius: 0;
+
+      & .profile-banner-background-image {
+        width: 100%;
+        position: relative;
+      }
+    }
+
+    & ion-grid {
+      padding: 0;
+    }
+
+    & .left-column {
+      padding: 0;
+
+      & ion-card {
+        margin-left: 0;
+      }
+    }
+
+    & .right-column {
+      padding: 0;
+
+      & ion-card {
+        margin-right: 0;
+      }
+    }
+  }
+
   .desktop-column-card {
-    padding: 30px;
+    padding: 15px;
     border-radius: 3px;
   }
 

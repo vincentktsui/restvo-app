@@ -208,21 +208,24 @@
   </div>
 
   <!-- Desktop view -->
-  <div [hidden]="devWidth < 768">
+  <div [hidden]="devWidth < 768" class="desktop-view">
+    <ion-card class="top-profile-banner">
+      <ion-img class="profile-banner-background-image" :src="assets/img/profile-banner-background-image.png"></ion-img>
+    </ion-card>
     <ion-grid>
       <ion-row>
         <!-- Left column -->
-        <ion-col>
+        <ion-col class="left-column">
           <ion-card class="desktop-column-card">
-            <ion-card-title>Left</ion-card-title>
+            <ion-card-title>Intro</ion-card-title>
           </ion-card>
           <ion-card class="desktop-column-card">
-            <ion-card-title>Left</ion-card-title>
+            <ion-card-title>Photos</ion-card-title>
           </ion-card>
         </ion-col>
 
         <!-- Right column -->
-        <ion-col>
+        <ion-col class="right-column">
           <ion-card class="desktop-column-card">
             <ion-card-title>My Mentors</ion-card-title>
             <div *ngIf="myMentors && myMentors.length && view === 'profile'">
