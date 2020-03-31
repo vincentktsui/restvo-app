@@ -11,7 +11,7 @@ import {UserData} from '../../../services/user.service';
 })
 export class CompleteprofilePage implements OnInit {
 
-  constructor(public router: Router, public authService: Auth, public userData: UserData) { }
+  constructor(public router: Router, public authService: Auth, public userData: UserData, private storage: Storage) { }
 
   ngOnInit() {
   }
@@ -23,6 +23,11 @@ export class CompleteprofilePage implements OnInit {
   async finishOnboarding(event) {
       event.stopPropagation();
       this.authService.openOnboarding({ modalPage: true });
+  }
+
+  async dismissImportContactList() {
+      this.userData.delayImportContactListReminder = 100;
+      await this.storage.set('delayImportContactListReminder', 100);
   }
 
   async pressImportContactList(event) {
