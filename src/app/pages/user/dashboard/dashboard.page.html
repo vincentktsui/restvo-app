@@ -210,7 +210,37 @@
   <!-- Desktop view -->
   <div [hidden]="devWidth < 768" class="desktop-view">
     <ion-card class="top-profile-banner">
-      <ion-img class="profile-banner-background-image" :src="assets/img/profile-banner-background-image.png"></ion-img>
+      <ion-img class="profile-banner-background-image" :src="assets/img/profile-banner-background-image.png">
+        <!-- <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="view === 'profile'">
+          <ion-col style="margin: 0 10px">
+            <ion-avatar class="profile-picture">
+              <ion-img class="person-photo" *ngIf="userData.user.avatar" [src]="userData.user.avatar"></ion-img>
+              <ion-img class="person-photo" *ngIf="!userData.user.avatar" src="assets/img/avatar-default.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col style="margin: 0 10px" size="7">
+            <h1>{{userData.user.first_name}} {{userData.user.last_name}}</h1>
+            <div [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div>
+            <ion-button fill="outline" shape="round" color="primary" size="small" style="width: 100%">Edit Profile</ion-button>
+          </ion-col>
+        </ion-row> -->
+      </ion-img>
+      <div class="profile-information-container">
+        <ion-row>
+          <ion-col size="3" class="profile-information-container-left">
+            <ion-avatar class="desktop-view-profile-container">
+              <ion-img class="desktop-view-profile-picture" *ngIf="userData.user.avatar" [src]="userData.user.avatar"></ion-img>
+              <ion-img class="desktop-view-profile-picture" *ngIf="!userData.user.avatar" src="assets/img/avatar-default.jpg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col class="profile-information-container-right">
+            <h1>{{userData.user.first_name}} {{userData.user.last_name}}</h1>
+            <div [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div>
+            <!-- <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</div> -->
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-button class="edit-profile-button" fill="outline" shape="round" color="white" size="small">Edit Profile</ion-button>
     </ion-card>
     <ion-grid>
       <ion-row>

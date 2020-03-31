@@ -576,6 +576,50 @@ app-dashboard {
     border-radius: 3px;
   }
 
+  .profile-information-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    width: 50%;
+    height: 75%;
+
+    & .desktop-view-profile-container {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    & .desktop-view-profile-picture {
+      border: 3px solid white;
+    }
+
+    & ion-row {
+      height: 100%;
+    }
+
+    &-left {
+      height: 100% !important;
+    }
+
+    &-right {
+      margin-left: 20px;
+
+      & * {
+        color: white;
+      }
+    }
+  }
+
+  .edit-profile-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .person-container {
+    background-color: white;
+  }
+
   .program-slides {
     padding: 0 5px 10px 0;
     background-color: #eee;
