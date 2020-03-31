@@ -31,7 +31,7 @@
     </ion-buttons>
     <ion-title slot="start" *ngIf="view === 'profile'">My Dashboard</ion-title>
     <ion-title slot="start" *ngIf="view === 'calendar'">Calendar</ion-title>
-      <ion-searchbar class="header-searchbar" [(ngModel)]="searchKeyword" debounce="500" (ionChange)="executeSearch($event)" (ionCancel)="cancelSearch($event)" *ngIf="platform.width() >= 768 && !platform.is('ios')" slot="start"></ion-searchbar>
+      <!-- <ion-searchbar class="header-searchbar" [(ngModel)]="searchKeyword" debounce="500" (ionChange)="executeSearch($event)" (ionCancel)="cancelSearch($event)" *ngIf="platform.width() >= 768 && !platform.is('ios')" slot="start"></ion-searchbar> -->
     <ion-item lines="none" routerLink="/app/user/profile" *ngIf="userData.user && platform.width() >= 768" slot="end">
       <ion-avatar slot="start">
         <ion-img *ngIf="userData.user && userData.user.avatar" [src]="userData.user.avatar"></ion-img>
@@ -42,7 +42,7 @@
       </ion-label>
     </ion-item>
     <ion-button *ngIf="!modalPage && userData.user" slot="end" fill="clear">
-      <ion-icon name="settings-outline"></ion-icon>
+      <ion-icon name="settings-outline" [hidden]="devWidth > 768"></ion-icon>
     </ion-button>
     <ion-buttons slot="end" *ngIf="!userData.user">
       <ion-button routerLink="/createCommunityregister" color="black">
@@ -74,135 +74,241 @@
   </ion-toolbar> -->
 </ion-header>
 
-<ion-content *ngIf="userData.user">
-  <ion-grid style="height: 100%" *ngIf="ionSpinner">
-    <ion-row class="ion-justify-content-end ion-align-items-center" style="height: 100%">
-      <ion-spinner name="dots"></ion-spinner>
-    </ion-row>
-  </ion-grid>
-  <ion-grid class="person-container">
-    <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="view === 'profile'">
-      <ion-col style="margin: 0 10px">
-        <ion-avatar class="profile-picture">
-          <ion-img class="person-photo" *ngIf="userData.user.avatar" [src]="userData.user.avatar"></ion-img>
-          <ion-img class="person-photo" *ngIf="!userData.user.avatar" src="assets/img/avatar-default.jpg"></ion-img>
-        </ion-avatar>
-      </ion-col>
-      <ion-col style="margin: 0 10px" size="7">
-        <h1>{{userData.user.first_name}} {{userData.user.last_name}}</h1>
-        <!-- <div class="person-content-right" [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div> -->
-        <div [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div>
-        <ion-button fill="outline" shape="round" color="primary" size="small" style="width: 100%">Edit Profile</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content *ngIf="userData.user" color="light">
+  <!-- Mobile View -->
+  <div [hidden]="devWidth > 768">
+    <ion-grid style="height: 100%" *ngIf="ionSpinner">
+      <ion-row class="ion-justify-content-end ion-align-items-center" style="height: 100%">
+        <ion-spinner name="dots"></ion-spinner>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="person-container">
+      <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="view === 'profile'">
+        <ion-col style="margin: 0 10px">
+          <ion-avatar class="profile-picture">
+            <ion-img class="person-photo" *ngIf="userData.user.avatar" [src]="userData.user.avatar"></ion-img>
+            <ion-img class="person-photo" *ngIf="!userData.user.avatar" src="assets/img/avatar-default.jpg"></ion-img>
+          </ion-avatar>
+        </ion-col>
+        <ion-col style="margin: 0 10px" size="7">
+          <h1>{{userData.user.first_name}} {{userData.user.last_name}}</h1>
+          <!-- <div class="person-content-right" [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div> -->
+          <div [ngClass]="{'content-border': bio }" [innerHTML]="userData.user.bio"></div>
+          <ion-button fill="outline" shape="round" color="primary" size="small" style="width: 100%">Edit Profile</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <!-- Gray Spacer -->
-  <div style="background-color: #eee; padding: 4px 0;"></div>
+    <!-- Gray Spacer -->
+    <div style="background-color: #eee; padding: 4px 0;"></div>
 
-  <!-- Complete your Profile Banner -->
-  <ion-toolbar *ngIf="userData.user && authService.incompleteOnboardProcess" class="profile-banner">
-    <ion-item-sliding side="end">
-      <ion-item (click)="finishOnboarding($event)" lines="none">
-        <ion-avatar slot="start">
-          <ion-img src="assets/img/finish.png"></ion-img>
-        </ion-avatar>
-        <div class="ion-text-wrap message-container">
-          <ion-label>Complete Your Profile</ion-label>
-          <p class="message-detail">Complete these steps to help you get the most out of Restvo</p>
-        </div>
-        <ion-icon name="chevron-forward-outline" color="primary" slot="end"></ion-icon>
+    <!-- Complete your Profile Banner -->
+    <ion-toolbar *ngIf="userData.user && authService.incompleteOnboardProcess" class="profile-banner">
+      <ion-item-sliding side="end">
+        <ion-item (click)="finishOnboarding($event)" lines="none">
+          <ion-avatar slot="start">
+            <ion-img src="assets/img/finish.png"></ion-img>
+          </ion-avatar>
+          <div class="ion-text-wrap message-container">
+            <ion-label>Complete Your Profile</ion-label>
+            <p class="message-detail">Complete these steps to help you get the most out of Restvo</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" color="primary" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item-options>
+          <ion-item-option color="primary" (click)="authService.incompleteOnboardProcess = null">
+            Dismiss
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-toolbar>
+
+    <!--List My Mentors-->
+    <div *ngIf="myMentors && myMentors.length && view === 'profile'">
+      <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
+        <ion-label class="section-label" color="darkgrey">My Mentors</ion-label>
       </ion-item>
-      <ion-item-options>
-        <ion-item-option color="primary" (click)="authService.incompleteOnboardProcess = null">
-          Dismiss
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-toolbar>
+      <ion-slides class="relationship-slides" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
+        <ion-slide class="relationship-slide" *ngFor="let relationship of myMentors; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
+          <ion-card class="relationship-card" (click)="openProgram($event, relationship)">
+            <ion-card-header class="ion-no-padding ion-justify-content-center">
+              <div class="relationship-photo-container">
+                <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentors; index as i" [hidden]="!relationship.mentors.length">
+                  <img class="relationship-photo" *ngIf="(relationship.mentors.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '72px', 'width': '72px'}" />
+                  <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMentorsDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '54px', 'width': '54px'}" />
+                  <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMentorsDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '45px', 'width': '45px'}" />
+                </ion-avatar>
+                <ion-avatar class="relationship-avatar" [hidden]="relationship.mentors.length">
+                  <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
+                </ion-avatar>
+              </div>
+            </ion-card-header>
+            <ion-card-content class="ion-no-padding">
+              <ion-row class="relationship-name-container ion-align-items-center">
+                <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 1">{{relationship.mentors[0].first_name}}</ion-col>
+                <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 2">{{relationship.mentors[1].first_name}}, {{relationship.mentors[0].first_name}}</ion-col>
+                <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentors.length || (relationship.mentors.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
+              </ion-row>
+              <ion-note class="relationship-description">{{relationship.program}}</ion-note>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <!--List My Mentees-->
+    <div *ngIf="myMentees && myMentees.length && view === 'profile'">
+      <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
+        <ion-label class="section-label" color="darkgrey">My Mentees</ion-label>
+      </ion-item>
+      <ion-slides class="relationship-slides" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
+        <ion-slide class="relationship-slide" *ngFor="let relationship of myMentees; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
+          <ion-card class="relationship-card" (click)="openProgram($event, relationship)">
+            <ion-card-header class="ion-no-padding">
+              <div class="relationship-photo-container ion-justify-content-center">
+                <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentees; index as i" [hidden]="!relationship.mentees.length">
+                  <img class="relationship-photo" *ngIf="(relationship.mentees.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '72px', 'width': '72px'}" />
+                  <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMenteesDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '54px', 'width': '54px'}" />
+                  <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMenteesDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '45px', 'width': '45px'}" />
+                </ion-avatar>
+                <ion-avatar class="relationship-avatar" [hidden]="relationship.mentees.length">
+                  <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
+                </ion-avatar>
+              </div>
+            </ion-card-header>
+            <ion-card-content class="ion-no-padding">
+              <ion-row class="relationship-name-container ion-align-items-center">
+                <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 1">{{relationship.mentees[0].first_name}}</ion-col>
+                <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 2">{{relationship.mentees[1].first_name}}, {{relationship.mentees[0].first_name}}</ion-col>
+                <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentees.length || (relationship.mentees.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
+              </ion-row>
+              <ion-note class="relationship-description">{{relationship.program}}</ion-note>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <!--List My Community-->
+    <div *ngIf="programs && programs.length && view === 'profile'">
+      <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
+        <ion-label class="section-label" color="darkgrey">My Community</ion-label>
+      </ion-item>
+      <ion-slides class="program-slides" [options]="{slidesPerView: 3.5, grabCursor: true, updateOnWindowResize: true}">
+        <ion-slide class="program-slide" *ngFor="let program of programs; trackBy: customTrackBy" [hidden]="!((program.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || program.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase())))">
+          <ion-card class="program-card" (click)="openProgram($event, program)">
+            <ion-card-header class="ion-no-padding">
+              <div class="program-photo-container">
+                <img class="program-photo" [src]="(program.assets && program.assets.length && program.assets[0]) | background: program._id" />
+              </div>
+            </ion-card-header>
+            <div class="program-name">{{program.matrix_string[0][0]}}</div>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+  </div>
 
-  <!--List My Mentors-->
-  <div *ngIf="myMentors && myMentors.length && view === 'profile'">
-    <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
-      <ion-label class="section-label" color="darkgrey">My Mentors</ion-label>
-    </ion-item>
-    <ion-slides class="relationship-slides" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
-      <ion-slide class="relationship-slide" *ngFor="let relationship of myMentors; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
-        <ion-card class="relationship-card" (click)="openProgram($event, relationship)">
-          <ion-card-header class="ion-no-padding ion-justify-content-center">
-            <div class="relationship-photo-container">
-              <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentors; index as i" [hidden]="!relationship.mentors.length">
-                <img class="relationship-photo" *ngIf="(relationship.mentors.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '72px', 'width': '72px'}" />
-                <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMentorsDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '54px', 'width': '54px'}" />
-                <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMentorsDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '45px', 'width': '45px'}" />
-              </ion-avatar>
-              <ion-avatar class="relationship-avatar" [hidden]="relationship.mentors.length">
-                <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
-              </ion-avatar>
+  <!-- Desktop view -->
+  <div [hidden]="devWidth < 768">
+    <ion-grid>
+      <ion-row>
+        <!-- Left column -->
+        <ion-col>
+          <ion-card class="desktop-column-card">
+            <ion-card-title>Left</ion-card-title>
+          </ion-card>
+          <ion-card class="desktop-column-card">
+            <ion-card-title>Left</ion-card-title>
+          </ion-card>
+        </ion-col>
+
+        <!-- Right column -->
+        <ion-col>
+          <ion-card class="desktop-column-card">
+            <ion-card-title>My Mentors</ion-card-title>
+            <div *ngIf="myMentors && myMentors.length && view === 'profile'">
+              <ion-slides class="relationship-slides" style="background-color: white !important; padding: 10px 0;" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
+                <ion-slide class="relationship-slide" *ngFor="let relationship of myMentors; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
+                  <ion-card class="relationship-card" style="box-shadow: 0 2px 5px rgba(0,0,0,.3) !important" (click)="openProgram($event, relationship)">
+                    <ion-card-header class="ion-no-padding ion-justify-content-center">
+                      <div class="relationship-photo-container">
+                        <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentors; index as i" [hidden]="!relationship.mentors.length">
+                          <img class="relationship-photo" *ngIf="(relationship.mentors.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '72px', 'width': '72px'}" />
+                          <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMentorsDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '54px', 'width': '54px'}" />
+                          <img class="relationship-photo border" *ngIf="(relationship.mentors.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMentorsDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMentorsDisplayed), 'height': '45px', 'width': '45px'}" />
+                        </ion-avatar>
+                        <ion-avatar class="relationship-avatar" [hidden]="relationship.mentors.length">
+                          <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
+                        </ion-avatar>
+                      </div>
+                    </ion-card-header>
+                    <ion-card-content class="ion-no-padding">
+                      <ion-row class="relationship-name-container ion-align-items-center">
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 1">{{relationship.mentors[0].first_name}}</ion-col>
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 2">{{relationship.mentors[1].first_name}}, {{relationship.mentors[0].first_name}}</ion-col>
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentors.length || (relationship.mentors.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
+                      </ion-row>
+                      <ion-note class="relationship-description">{{relationship.program}}</ion-note>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-slide>
+              </ion-slides>
             </div>
-          </ion-card-header>
-          <ion-card-content class="ion-no-padding">
-            <ion-row class="relationship-name-container ion-align-items-center">
-              <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 1">{{relationship.mentors[0].first_name}}</ion-col>
-              <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentors.length === 2">{{relationship.mentors[1].first_name}}, {{relationship.mentors[0].first_name}}</ion-col>
-              <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentors.length || (relationship.mentors.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
-            </ion-row>
-            <ion-note class="relationship-description">{{relationship.program}}</ion-note>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
-  <!--List My Mentees-->
-  <div *ngIf="myMentees && myMentees.length && view === 'profile'">
-    <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
-      <ion-label class="section-label" color="darkgrey">My Mentees</ion-label>
-    </ion-item>
-    <ion-slides class="relationship-slides" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
-      <ion-slide class="relationship-slide" *ngFor="let relationship of myMentees; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
-        <ion-card class="relationship-card" (click)="openProgram($event, relationship)">
-          <ion-card-header class="ion-no-padding">
-            <div class="relationship-photo-container ion-justify-content-center">
-              <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentees; index as i" [hidden]="!relationship.mentees.length">
-                <img class="relationship-photo" *ngIf="(relationship.mentees.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '72px', 'width': '72px'}" />
-                <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMenteesDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '54px', 'width': '54px'}" />
-                <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMenteesDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '45px', 'width': '45px'}" />
-              </ion-avatar>
-              <ion-avatar class="relationship-avatar" [hidden]="relationship.mentees.length">
-                <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
-              </ion-avatar>
+          </ion-card>
+          <ion-card class="desktop-column-card">
+            <ion-card-title>My Mentees</ion-card-title>
+            <div *ngIf="myMentees && myMentees.length && view === 'profile'">
+              <ion-slides class="relationship-slides" style="background-color: white !important; padding: 10px 0;" [options]="{slidesPerView: 2.8, grabCursor: true, updateOnWindowResize: true}">
+                <ion-slide class="relationship-slide" *ngFor="let relationship of myMentees; trackBy: customTrackBy;" [hidden]="!(relationship.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || relationship.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase()))">
+                  <ion-card class="relationship-card" style="box-shadow: 0 2px 5px rgba(0,0,0,.3) !important" (click)="openProgram($event, relationship)">
+                    <ion-card-header class="ion-no-padding">
+                      <div class="relationship-photo-container ion-justify-content-center">
+                        <ion-avatar class="relationship-avatar" *ngFor="let user of relationship.mentees; index as i" [hidden]="!relationship.mentees.length">
+                          <img class="relationship-photo" *ngIf="(relationship.mentees.length % 3) === 1" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '12px', 'left': 24 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '72px', 'width': '72px'}" />
+                          <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 2" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '18px', 'left': 55 - (i % relationship.numberOfMenteesDisplayed) * 44 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '54px', 'width': '54px'}" />
+                          <img class="relationship-photo border" *ngIf="(relationship.mentees.length % 3) === 0" [src]="user.avatar || 'assets/img/avatar-default.jpg'" [ngStyle]="{'top': '17px', 'left': 69 - (i % relationship.numberOfMenteesDisplayed) * 31 + 'px', 'z-index': (i % relationship.numberOfMenteesDisplayed), 'height': '45px', 'width': '45px'}" />
+                        </ion-avatar>
+                        <ion-avatar class="relationship-avatar" [hidden]="relationship.mentees.length">
+                          <img class="relationship-photo" src="assets/img/avatar-default.jpg" [ngStyle]="{'top': '12px', 'left': '24px', 'height': '72px', 'width': '72px'}" />
+                        </ion-avatar>
+                      </div>
+                    </ion-card-header>
+                    <ion-card-content class="ion-no-padding">
+                      <ion-row class="relationship-name-container ion-align-items-center">
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 1">{{relationship.mentees[0].first_name}}</ion-col>
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 2">{{relationship.mentees[1].first_name}}, {{relationship.mentees[0].first_name}}</ion-col>
+                        <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentees.length || (relationship.mentees.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
+                      </ion-row>
+                      <ion-note class="relationship-description">{{relationship.program}}</ion-note>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-slide>
+              </ion-slides>
             </div>
-          </ion-card-header>
-          <ion-card-content class="ion-no-padding">
-            <ion-row class="relationship-name-container ion-align-items-center">
-              <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 1">{{relationship.mentees[0].first_name}}</ion-col>
-              <ion-col class="relationship-name ion-no-padding" *ngIf="relationship.mentees.length === 2">{{relationship.mentees[1].first_name}}, {{relationship.mentees[0].first_name}}</ion-col>
-              <ion-col class="relationship-name ion-no-padding" *ngIf="!relationship.mentees.length || (relationship.mentees.length > 2)">{{relationship.matrix_string[0][0]}}</ion-col>
-            </ion-row>
-            <ion-note class="relationship-description">{{relationship.program}}</ion-note>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
-  </div>
-  <!--List My Community-->
-  <div *ngIf="programs && programs.length && view === 'profile'">
-    <ion-item class="section" color="lightgrey" lines="none"> <!--section header-->
-      <ion-label class="section-label" color="darkgrey">My Community</ion-label>
-    </ion-item>
-    <ion-slides class="program-slides" [options]="{slidesPerView: 3.5, grabCursor: true, updateOnWindowResize: true}">
-      <ion-slide class="program-slide" *ngFor="let program of programs; trackBy: customTrackBy" [hidden]="!((program.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || program.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase())))">
-        <ion-card class="program-card" (click)="openProgram($event, program)">
-          <ion-card-header class="ion-no-padding">
-            <div class="program-photo-container">
-              <img class="program-photo" [src]="(program.assets && program.assets.length && program.assets[0]) | background: program._id" />
+          </ion-card>
+
+          <!-- My Communities -->
+          <ion-card class="desktop-column-card">
+            <ion-card-title>My Communities</ion-card-title>
+            <div *ngIf="programs && programs.length && view === 'profile'">
+              <ion-slides class="program-slides" style="background-color: white !important; padding: 10px 0;" [options]="{slidesPerView: 3.5, grabCursor: true, updateOnWindowResize: true}">
+                <ion-slide class="program-slide" *ngFor="let program of programs; trackBy: customTrackBy" [hidden]="!((program.matrix_string[0][0].toLowerCase().includes(searchKeyword.toLowerCase()) || program.resource['en-US'].value[0].toLowerCase().includes(searchKeyword.toLowerCase())))">
+                  <ion-card class="program-card" (click)="openProgram($event, program)">
+                    <ion-card-header class="ion-no-padding">
+                      <div class="program-photo-container">
+                        <img class="program-photo" [src]="(program.assets && program.assets.length && program.assets[0]) | background: program._id" />
+                      </div>
+                    </ion-card-header>
+                    <div class="program-name">{{program.matrix_string[0][0]}}</div>
+                  </ion-card>
+                </ion-slide>
+              </ion-slides>
             </div>
-          </ion-card-header>
-          <div class="program-name">{{program.matrix_string[0][0]}}</div>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
+
   <div *ngIf="view === 'calendar'">
     <ion-list>
       <div class="dashboard-banner">

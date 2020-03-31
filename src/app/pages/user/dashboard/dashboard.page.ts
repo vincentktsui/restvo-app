@@ -72,6 +72,8 @@ export class DashboardPage implements OnInit, OnDestroy {
       this.calendarService.updateViewCalendar();
   }
 
+    public devWidth = this.platform.width();
+
     async ngOnInit() {
         // link the refreshUserStatus Observable with the refresh handler. It fires on subsequent user refreshes
         this.subscriptions['refreshUserStatus'] = this.userData.refreshUserStatus$.subscribe(this.refreshDashboardPageHandler);
