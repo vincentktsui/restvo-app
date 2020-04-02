@@ -107,9 +107,12 @@
         <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
             <ion-item class="section" lines="none"> <!--section header-->
-              <ion-label class="section-label" color="darkgrey">My Mentors</ion-label>
+              <ion-label class="section-label" color="darkgrey">Introduction</ion-label>
             </ion-item>
-            <ion-title>Introduction</ion-title>
+            <ion-card-content>
+              <ion-card-title>I am a {{ userData.user.title }}</ion-card-title>
+              <div>{{ userData.user.bio }}</div>
+            </ion-card-content>
           </ion-card>
         </ion-col>
 
@@ -180,16 +183,6 @@
           </ion-card>
         </ion-col>
 
-        <!-- Photos -->
-        <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
-          <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
-            <ion-item class="section" lines="none"> <!--section header-->
-              <ion-label class="section-label" color="darkgrey">Photos</ion-label>
-            </ion-item>
-            <ion-title>Photos</ion-title>
-          </ion-card>
-        </ion-col>
-
         <!--List My Mentees-->
         <ion-col *ngIf="myMentees && myMentees.length" [size]="(platform.width() >= 768) && (myMentees.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
@@ -256,6 +249,7 @@
             </ion-grid>
           </ion-card>
         </ion-col>
+
         <!--List My Community-->
         <ion-col *ngIf="programs && programs.length" [size]="(platform.width() >= 768) && (programs.length <= 6) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
