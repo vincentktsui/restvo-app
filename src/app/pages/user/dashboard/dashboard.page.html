@@ -52,15 +52,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="userData.user">
+<ion-content *ngIf="userData.user" color="light">
   <ion-grid style="height: 100%" *ngIf="ionSpinner">
     <ion-row class="ion-justify-content-end ion-align-items-center" style="height: 100%">
       <ion-spinner name="dots"></ion-spinner>
     </ion-row>
   </ion-grid>
-  <div class="content-container" [ngStyle]="{'background': platform.width() >= 768 ? 'var(--ion-color-secondary)' : 'var(--ion-color-lightgrey)'}">
+  <div class="content-container">
     <ion-row class="profile-row">
-      <ion-card class="profile-card" [ngClass]="{'mobile-card': platform.width() < 768}" *ngIf="view === 'profile'">
+      <ion-card style="background-color: white !important;" class="profile-card" [ngClass]="{'mobile-card': platform.width() < 768}" *ngIf="view === 'profile'">
         <ion-item lines="none">
           <div class="person-photo-container">
             <ion-avatar class="person-avatar">
@@ -80,7 +80,7 @@
 
     <!-- Complete your Profile Banner -->
     <ion-row class="profile-row">
-      <ion-card [routerLink]="['/app/completeprofile']" class="profile-card" *ngIf="userData.user && (!userData.user.avatar || authService.incompleteOnboardProcess || (platform.is('cordova') && !userData.user.importContactList && !userData.delayImportContactListReminder) || (!userData.user.enablePushNotification && !userData.delayPushNotificationReminder))" [ngClass]="{'mobile-card': platform.width() < 768}">
+      <ion-card [routerLink]="['/app/completeprofile']" class="complete-profile-banner" *ngIf="userData.user && (!userData.user.avatar || authService.incompleteOnboardProcess || (platform.is('cordova') && !userData.user.importContactList && !userData.delayImportContactListReminder) || (!userData.user.enablePushNotification && !userData.delayPushNotificationReminder))" [ngClass]="{'mobile-card': platform.width() < 768}">
         <ion-item-sliding>
           <ion-item lines="none">
             <div class="completed_percentage">
@@ -103,8 +103,18 @@
 
     <ion-grid class="content-grid" *ngIf="view === 'profile'">
       <ion-row>
+        <!-- Introduction -->
+        <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
+          <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
+            <ion-item class="section" lines="none"> <!--section header-->
+              <ion-label class="section-label" color="darkgrey">My Mentors</ion-label>
+            </ion-item>
+            <ion-title>Introduction</ion-title>
+          </ion-card>
+        </ion-col>
+
         <!--List My Mentors-->
-        <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '6px 0'}">
+        <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
             <ion-item class="section" lines="none"> <!--section header-->
               <ion-label class="section-label" color="darkgrey">My Mentors</ion-label>
@@ -169,8 +179,19 @@
             </ion-grid>
           </ion-card>
         </ion-col>
+
+        <!-- Photos -->
+        <ion-col *ngIf="myMentors && myMentors.length" [size]="(platform.width() >= 768) && (myMentors.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
+          <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
+            <ion-item class="section" lines="none"> <!--section header-->
+              <ion-label class="section-label" color="darkgrey">Photos</ion-label>
+            </ion-item>
+            <ion-title>Photos</ion-title>
+          </ion-card>
+        </ion-col>
+
         <!--List My Mentees-->
-        <ion-col *ngIf="myMentees && myMentees.length" [size]="(platform.width() >= 768) && (myMentees.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '6px 0'}">
+        <ion-col *ngIf="myMentees && myMentees.length" [size]="(platform.width() >= 768) && (myMentees.length <= 2) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
             <ion-item class="section" lines="none"> <!--section header-->
               <ion-label class="section-label" color="darkgrey">My Mentees</ion-label>
@@ -236,7 +257,7 @@
           </ion-card>
         </ion-col>
         <!--List My Community-->
-        <ion-col *ngIf="programs && programs.length" [size]="(platform.width() >= 768) && (programs.length <= 6) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '6px 0'}">
+        <ion-col *ngIf="programs && programs.length" [size]="(platform.width() >= 768) && (programs.length <= 6) ? 6 : 12" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding section-card" [ngClass]="{'mobile-card': platform.width() < 768}">
             <ion-item class="section" lines="none"> <!--section header-->
               <ion-label class="section-label" color="darkgrey">My Community</ion-label>
@@ -270,7 +291,7 @@
           </ion-card>
         </ion-col>
 
-        <ion-col *ngIf="!noSystemMessage" size-xs="12" size-sm="12" size-md="6" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '6px 0'}">
+        <ion-col *ngIf="!noSystemMessage" size-xs="12" size-sm="12" size-md="6" [ngStyle]="{'padding': platform.width() >= 768 ? '6px 5px' : '0'}">
           <ion-card class="ion-no-margin ion-no-padding" [ngClass]="{'mobile-card': platform.width() < 768}">
             <ion-item class="section" lines="none" *ngIf="platform.width() >= 768"> <!--section header-->
               <ion-label class="section-label" color="darkgrey">System Notifications</ion-label>
