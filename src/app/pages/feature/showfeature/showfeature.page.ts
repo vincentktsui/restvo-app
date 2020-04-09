@@ -1747,6 +1747,10 @@ export class ShowfeaturePage implements OnInit, OnDestroy {
       const currentSlideIndex = await this.programsSlides.getActiveIndex();
       if (currentSlideIndex === this.matchedPeople.length - 4) {
         this.loadMorePrograms();
+        this.programsSlides.lockSwipeToNext(true);
+      }
+      else {
+        this.programsSlides.lockSwipeToNext(false);
       }
     }
   }
