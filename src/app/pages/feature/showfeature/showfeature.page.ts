@@ -1227,11 +1227,24 @@ export class ShowfeaturePage implements OnInit, OnDestroy {
     }
   }
 
-  async swipePeopleSlide() {
+  async swipePeopleSlide(event) {
+    event.stopPropagation();
     if (this.peopleSlides) {
       const currentSlideIndex = await this.peopleSlides.getActiveIndex();
       if (currentSlideIndex === this.matchedPeople.length - 4) {
         this.loadMorePeople(null);
+        this.peopleSlides.lockSwipeToNext(true);
+      }
+
+      if (currentSlideIndex > this.matchedPeople.length) {
+        console.log("yay")
+        this.peopleSlides.lockSwipeToNext(true);
+      }
+      else {
+        console.log("boi")
+        console.log(currentSlideIndex)
+        console.log(this.matchedPeople.length / 3)
+        this.peopleSlides.lockSwipeToNext(false);
       }
     }
   }
