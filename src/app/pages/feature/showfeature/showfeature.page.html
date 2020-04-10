@@ -1395,7 +1395,7 @@
     <ion-item color="lightgrey" lines="none" class="section"> <!--Featured Communities/Programs Section Header-->
       <ion-label color="darkgrey" class="section-label ion-text-uppercase">Featured Communities</ion-label>
     </ion-item>
-    <ion-slides class="program-slides" #programsSlides (ionSlideDidChange)="swipeProgramslide($event)" [options]="{slidesPerView: 3.5, grabCursor: true, updateOnWindowResize: true}">
+    <!-- <ion-slides class="program-slides" #programsSlides (ionSlideDidChange)="swipeProgramslide($event)" [options]="{slidesPerView: 3.5, grabCursor: true, updateOnWindowResize: true}">
       <ion-slide class="program-slide" *ngFor="let program of programs; trackBy: customTrackBy">
         <ion-card class="program-card" (click)="openProgram($event, program)">
           <ion-card-header class="ion-no-padding">
@@ -1406,7 +1406,27 @@
           <div class="program-name">{{program.matrix_string[0][0]}}</div>
         </ion-card>
       </ion-slide>
-    </ion-slides>
+    </ion-slides> -->
+
+    <!-- Slider main container -->
+    <div class="swiper-container">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+        </div>
+        <!-- If we need pagination -->
+        <!-- <div class="swiper-pagination"></div> -->
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev" (click)="swipeLeft()"></div>
+        <div class="swiper-button-next" (click)="swipeRight()"></div>
+
+        <!-- If we need scrollbar -->
+        <!-- <div class="swiper-scrollbar"></div> -->
+    </div>
   </div>
   <!--Space to create cushion for the Fab buttons-->
   <div style="height: 50px" *ngIf="authService.token && (hasOrganizerAccess || hasLeaderAccess || hasAddedToAttendEventList) && loadCompleted && mode === 'list' && moment && moment.resource.matrix_number?.length && moment.resource.matrix_number[0].includes(10210) && ((moment.array_boolean.length > 8) && moment.array_boolean[8] || customSchedule || (moment.resource.matrix_number?.length && moment.resource.matrix_number[0].includes(12000)))"></div>
@@ -1429,3 +1449,15 @@
     <ion-button expand="block" shape="round" (click)="deleteCalendarItem($event)" color="primary">Delete</ion-button>
   </ion-toolbar>
 </ion-footer>
+<script>
+  var mySwiper = new Swiper ('.swiper-container', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  })
+  </script>

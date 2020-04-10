@@ -439,6 +439,10 @@ export class ShowfeaturePage implements OnInit, OnDestroy {
       }
   };
 
+  async swipeLeft() {
+    
+  }
+
   async loadCalendarItem() {
       if (this.authService.token && this.calendarId) {
           this.calendarItem = await this.momentService.touchContentCalendarItems(null, {operation: 'load calendar item', calendarId: this.calendarId});
