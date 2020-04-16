@@ -455,6 +455,9 @@ app-dashboard {
   }
 
   .person-edit-profile {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
     width: 183px;
     height: 26px;
     font-style: normal;
@@ -552,6 +555,7 @@ app-dashboard {
   }
 
   .program-card {
+    position: relative;
     height: 100%;
     width: 100%;
     object-fit: contain;
