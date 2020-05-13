@@ -21,7 +21,7 @@ const routes: Routes = [
                 children: [
                     {
                         path: ':id',
-                        loadChildren: './feature-insight/feature-insight.module#FeatureInsightPageModule'
+                        loadChildren: './feature-insight/feature-insight.module#FeatureInsightPageModule',
                     },
                     {
                         path: ":id",
