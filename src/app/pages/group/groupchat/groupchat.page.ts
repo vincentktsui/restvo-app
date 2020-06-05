@@ -971,28 +971,28 @@ export class GroupchatPage implements OnInit, OnDestroy {
     }
 
     async seeMoreInfo() {
-    if (this.chatService.currentChatProps[this.propIndex].group) {
+      if (this.chatService.currentChatProps[this.propIndex].group) {
         if (this.modalPage) {
             const groupinfoModal = await this.modalCtrl.create({component: GroupinfoPage, componentProps: {modalPage: true}} );
             await groupinfoModal.present();
-            const {data: refreshNeeded} = await groupinfoModal.onDidDismiss();
+            const { data: refreshNeeded } = await groupinfoModal.onDidDismiss();
             if (refreshNeeded) {
             }
         } else {
-            this.router.navigate(['/app/myconversations/group'], { skipLocationChange: true });
+          this.router.navigate(['/app/myconversations/group'], { skipLocationChange: true });
         }
-    } else if (this.chatService.currentChatProps[this.propIndex].moment) {
+      } else if (this.chatService.currentChatProps[this.propIndex].moment) {
         if (this.modalPage) {
-            const modal = await this.modalCtrl.create({component: ShowfeaturePage, componentProps: {moment: { _id: this.chatService.currentChatProps[this.propIndex].moment._id}, modalPage: true}} );
-            await modal.present();
-            const {data: refreshNeeded} = await modal.onDidDismiss();
-            if (refreshNeeded) {
-                this.closeModal(true);
-            }
+          const modal = await this.modalCtrl.create({component: ShowfeaturePage, componentProps: {moment: { _id: this.chatService.currentChatProps[this.propIndex].moment._id}, modalPage: true}} );
+          await modal.present();
+          const {data: refreshNeeded} = await modal.onDidDismiss();
+          if (refreshNeeded) {
+              this.closeModal(true);
+          }
         } else {
-            this.router.navigate(['/app/myconversations/activity/' + this.chatService.currentChatProps[this.propIndex].moment._id], { skipLocationChange: true });
+          this.router.navigate(['/app/myconversations/activity/' + this.chatService.currentChatProps[this.propIndex].moment._id], { skipLocationChange: true });
         }
-    } else {
+      } else {
         if (this.modalPage) {
             const recipientModal = await this.modalCtrl.create({
                 component: ShowrecipientinfoPage,
@@ -1009,7 +1009,6 @@ export class GroupchatPage implements OnInit, OnDestroy {
           if (this.router.url.includes("sub")) {
             this.router.navigate(["", { outlets: { sub: ['sub_profile', recipient._id ] }}], { relativeTo: this.route });
           } else {
-            // this.router.navigate(['/app/myconversations/person/' + recipient._id], { replaceUrl: false });
             this.router.navigate(['/app/myconversations/person/' + this.chatService.currentChatProps[this.propIndex].recipient._id]);
           }
         }
