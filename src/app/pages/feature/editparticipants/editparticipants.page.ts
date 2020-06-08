@@ -127,11 +127,6 @@ export class EditparticipantsPage extends EditfeaturePage implements OnInit {
     // this.moment.user_list_1 - participant
     // this.moment.user_list_2 - organizer
     // this.moment.user_list_3 - leader
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Please wait...',
-    //   duration: 2000
-    // })
-    // await loading.present();
     let tempList1 = this.moment.user_list_1.slice();
     tempList1.forEach((user) => {
       user.role = [this.participantLabel];
@@ -148,9 +143,9 @@ export class EditparticipantsPage extends EditfeaturePage implements OnInit {
     //tempArray => lists an array of user objects with each users role
 
 
-    //this logic below checks the user._id to see if it exists in the array uniqueParticipantList
-    //If it exists, we only need to concat the roles,
-    //Else, we need to push the whole user object into uniqueParticipantList
+    // this logic below checks the user._id to see if it exists in the array uniqueParticipantList
+    // If it exists, we only need to concat the roles,
+    // Else, we need to push the whole user object into uniqueParticipantList
     this.tempArray.forEach(el => {
       let exists = this.uniqueParticipantList.filter(function(value){
         return value._id === el._id
@@ -162,8 +157,7 @@ export class EditparticipantsPage extends EditfeaturePage implements OnInit {
       else {
         this.uniqueParticipantList.push(el)
       }
-    })
-
+    });
   }
 
   async openPopUpModalAddParticipants(event){
@@ -173,35 +167,12 @@ export class EditparticipantsPage extends EditfeaturePage implements OnInit {
   async pushToMessagePage(event, user) {
     if (event) event.stopPropagation();
 
-    const conversationId = await this.chatService.newConversation(user._id, { composedMessage : 'Administrator ' + this.userData.user.first_name + ' ' + this.userData.user.last_name + ' is now connected with you.', type: 'connect' });
+    const conversationId = await this.chatService.newConversation(user._id, { composedMessage : `Administrator ${this.userData.user.first_name} ${this.userData.user.last_name} is now connected with you.`, type: 'connect' });
     this.chatService.openChat({
       conversationId: conversationId,
       author: user,
       relativeTo: this.platform.width() >= 768 ? this.route : null
     });
-    /*let chatObj = {
-        conversationId: id,
-        name: user.first_name + ' ' + user.last_name,
-        recipient: user,
-        page: 'chat',
-        badge: 0,
-        modalPage: this.platform.width() < 768
-    };
-
-    if (this.platform.width() >= 768) {
-      this.chatService.currentChatProps.push(chatObj);
-      // when clicking on a conversation, if it is displaying the group info, it will force it to get back to the chat view
-      this.router.navigate(['', { outlets: { sub: 'sub_chat' }}], { relativeTo: this.route });
-      // if it is displaying the chat view, it will reload the chat data
-      this.userData.refreshMyConversations({action: 'reload chat view'});
-    } else {
-      this.chatService.currentChatProps.push(chatObj);
-      const groupPage = await this.modalCtrl.create({
-        component: GroupchatPage,
-        componentProps: this.chatService.currentChatProps[this.chatService.currentChatProps.length - 1]
-      });
-      await groupPage.present();
-    }*/
   }
 
   sortDisplay(type) {
@@ -229,5 +200,5 @@ export class EditparticipantsPage extends EditfeaturePage implements OnInit {
           }
         });
     }
-}
+  }
 }

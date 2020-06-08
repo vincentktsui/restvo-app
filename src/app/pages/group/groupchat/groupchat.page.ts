@@ -970,6 +970,10 @@ export class GroupchatPage implements OnInit, OnDestroy {
       }
     }
 
+    closeChatPanel() {
+      this.router.navigate([""], { relativeTo: this.route });
+    }
+
     async seeMoreInfo() {
       if (this.chatService.currentChatProps[this.propIndex].group) {
         if (this.modalPage) {
